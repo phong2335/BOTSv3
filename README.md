@@ -1,6 +1,6 @@
 # BOTSv3
 
-Splunk có một số bộ dữ liệu "Boss of the SOC", mô phỏng một sự cố an ninh – hãy coi nó như một cuộc thi CTF dựa trên Blue Team/SIEM. Có vẻ như Taedonggang, một nhóm của Triều Tiên, đã tấn công Frothly, một nhà sản xuất bia.
+"Boss of the SOC" là một bộ dữ liệu của Splunk, mô phỏng một sự cố an ninh – hãy coi nó như một cuộc thi CTF dựa trên Blue Team/SIEM. Có vẻ như Taedonggang, một nhóm của Triều Tiên, đã tấn công Frothly, một nhà sản xuất bia.
 
 # I. Cài đặt công cụ và môi trường
 
