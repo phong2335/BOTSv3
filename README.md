@@ -11,7 +11,7 @@ Splunk có một số bộ dữ liệu "Boss of the SOC", mô phỏng một sự
 
 3. Restart Splunk
 
-- Vào Splunk Web → **Settings → Server controls → Restart Splunk**
+- Vào Splunk Web → Settings → Server controls → Restart Splunk
 
 1. Test đã search được BOTSv3 chưa
 
@@ -28,7 +28,7 @@ Splunk có một số bộ dữ liệu "Boss of the SOC", mô phỏng một sự
 
 # II. Thực hành
 
-- Tham khảo Host và Sourcetypes **tại** h[ttps://www.jamesgibbins.com/botsv3/](https://www.jamesgibbins.com/botsv3/)
+- Tham khảo Host và Sourcetypes **tại** [https://www.jamesgibbins.com/botsv3/](https://www.jamesgibbins.com/botsv3/)
 - Mỗi host có những sourcetype nào
   ```powershell
   | tstats values(sourcetype) by host
