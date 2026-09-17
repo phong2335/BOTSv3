@@ -1,32 +1,8 @@
 # BOTSv3
 
-Splunk có một số bộ dữ liệu "Boss of the SOC", mô phỏng một sự cố an ninh – hãy coi nó như một cuộc thi CTF dựa trên Blue Team/SIEM. Có vẻ như Taedonggang, một nhóm của Triều Tiên, đã tấn công Frothly, một nhà sản xuất bia.
+Có vẻ như Taedonggang, một nhóm của Triều Tiên, đã tấn công Frothly, một nhà sản xuất bia.
 
-# I. Cài đặt công cụ và môi trường
-
-1. Cài Splunk Enterprise trên Windows
-   - Tải **Splunk Enterprise (Windows .msi)** từ trang Splunk.
-   - Chạy file `.msi` → cài theo mặc định.
-2. Tải BOTSv3 dataset trên [https://github.com/splunk/botsv3?tab=readme-ov-](https://github.com/splunk/botsv3?tab=readme-ov-file)file, giải nén thư mục rồi đưa vào $SPLUNK_HOME/etc/apps
-
-3. Restart Splunk
-
-- Vào Splunk Web → **Settings → Server controls → Restart Splunk**
-
-1. Test đã search được BOTSv3 chưa
-
-   ```
-   index=botsv3 earliest=0 | head 20
-   ```
-
-2. Tải thêm những app trong splunk sau
-   - Splunk Common Information Model (CIM)
-   - Splunk Add-on for Microsoft Windows
-   - Splunk Add-on for Sysmon
-   - Splunk Add-on for Unix and Linux
-   - Splunk Add-on for Cisco ASA
-
-# II. Thực hành
+BOTSv3 dataset [https://github.com/splunk/botsv3?tab=readme-ov-](https://github.com/splunk/botsv3?tab=readme-ov-file)
 
 - Tham khảo Host và Sourcetypes **tại** h[ttps://www.jamesgibbins.com/botsv3/](https://www.jamesgibbins.com/botsv3/)
 - Mỗi host có những sourcetype nào
@@ -49,8 +25,6 @@ Splunk có một số bộ dữ liệu "Boss of the SOC", mô phỏng một sự
   - `ABUNGST-L` (Al Bungstein): Một user khác, thường dùng để đối chiếu hành vi bình thường.
 
 ## **1. (208)** A Frothly endpoint exhibits signs of coin mining activity. What is the name of the first process to reach 100 percent CPU processor utilization time from this activity on this endpoint?
-
-Một endpoint Frothly cho thấy dấu hiệu của hoạt động khai thác tiền điện tử. Tên của tiến trình đầu tiên đạt 100% thời gian sử dụng bộ xử lý CPU từ hoạt động này trên endpoint đó là gì?
 
 - Xác định thời gian và máy tính, trong đề bài, chúng ta biết máy bị nhiễm là của **Bud Stoll (`BSTOLL-L`)**.
   ```powershell
@@ -81,8 +55,6 @@ Một endpoint Frothly cho thấy dấu hiệu của hoạt động khai thác t
 
 ## **2. (210)** What is the short hostname of the only Frothly endpoint to actually mine Monero cryptocurrency?
 
-Tên hostname dạng ngắn (short hostname) của endpoint duy nhất trong hệ thống Frothly thực sự đào tiền mã hoá Monero là gì?
-
 - **Dữ kiện từ câu 208:** Ta đã tìm ra thủ phạm gây 100% CPU là `chrome#5` (Trình duyệt web).
 - Đây là hành vi **"Browser-based Mining"** (Đào tiền ảo bằng trình duyệt). Kẻ tấn công nhúng một đoạn mã JavaScript vào trang web, khi nạn nhân truy cập, trình duyệt của họ sẽ bị biến thành máy đào.
 - Vào năm 2018 (thời điểm diễn ra kịch bản), dịch vụ đào Monero trên trình duyệt nổi tiếng nhất thế giới là **Coinhive**.
@@ -103,8 +75,6 @@ Tên hostname dạng ngắn (short hostname) của endpoint duy nhất trong h�
 
 ## 3. (215) What is the FQDN of the endpoint that is running a different Windows operating system edition than the others?
 
-Tên miền đầy đủ (FQDN) của thiết bị đầu cuối đang chạy phiên bản hệ điều hành Windows khác với các thiết bị còn lại là gì?
-
 - Ta đoán trong hệ thống chắc chắn phải có windows 10 nên search
   ```powershell
   index=botsv3 "windows 10"
@@ -122,8 +92,6 @@ Tên miền đầy đủ (FQDN) của thiết bị đầu cuối đang chạy ph
 ⇒ đáp án là `BSTOLL-L`
 
 ## 4. (304) What is the name of the user that was created after the endpoint was compromised?
-
-Tên của người dùng được tạo sau khi endpoint bị xâm phạm là gì?
 
 - Ta đã biết máy bị xâm phạm là hệ điều hành Windows ở câu 215 nên EventCode = 4720 là created user
   ```powershell
@@ -195,8 +163,6 @@ Tên của người dùng được tạo sau khi endpoint bị xâm phạm là g
 
 ## 5. (320) What is the password for the user that was created on the compromised endpoint?
 
-Mật khẩu của người dùng được tạo trên thiết bị đầu cuối bị xâm nhập là gì?
-
 - Ta có thể tìm mật khẩu bằng EventCode=4688 hoặc sysmon id=1
   ```powershell
   index=botsv3 svcvnc(EventCode=4688 OR EventCode=1)
@@ -206,8 +172,6 @@ Mật khẩu của người dùng được tạo trên thiết bị đầu cuố
   ⇒ `Password123!`
 
 ## **6. (300)** What is the full user agent string that uploaded the malicious link file to OneDrive?
-
-Chuỗi user agent đầy đủ đã tải tệp liên kết độc hại lên OneDrive là gì?
 
 - Thử SPL tìm những thứ liên quan đến onedrive
   ```powershell
@@ -237,8 +201,6 @@ Chuỗi user agent đầy đủ đã tải tệp liên kết độc hại lên O
 ⇒ User agent là `Mozilla/5.0 (X11; U; Linux i686; ko-KP; rv: 19.1br) Gecko/20130508 Fedora/1.9.1-2.5.rs3.0 NaenaraBrowser/3.5b4`
 
 ## **7. (301)** What external client IP address is able to initiate successful logins to Frothly using an expired user account?
-
-Địa chỉ IP của máy khách bên ngoài nào có thể thực hiện đăng nhập thành công vào Frothly bằng tài khoản người dùng đã hết hạn?
 
 - SPL với từ khóa `expired`
   ```powershell
@@ -285,8 +247,6 @@ index=botsv3 sourcetype="ms:aad:*" (*Kevin* OR *Lagerfield*)
 
 ## 8. (306) \*\*\*\*A search query originating from an external IP address of Frothly’s mail server yields some interesting search terms. What is the search string?
 
-Một truy vấn tìm kiếm xuất phát từ địa chỉ IP bên ngoài của máy chủ thư điện tử của Frothly cho ra một số cụm từ tìm kiếm thú vị. Chuỗi tìm kiếm là gì?
-
 - Ta biết Frothly sử dụng Microsoft office 365 nên thử tìm trong sourcetype ms:o365:management
   ```powershell
   index=botsv3 sourcetype="ms:o365:management"
@@ -312,8 +272,6 @@ Một truy vấn tìm kiếm xuất phát từ địa chỉ IP bên ngoài của
 ⇒ query string là: `cromdale OR beer OR financial OR secret`
 
 ## **9. (314)** What port number did the adversary use to download their attack tools?
-
-Kẻ tấn công đã sử dụng số cổng nào để tải xuống các công cụ tấn công của chúng?
 
 - Thử SPL
   ```powershell
@@ -344,8 +302,6 @@ Kẻ tấn công đã sử dụng số cổng nào để tải xuống các côn
 
 ## **10. (318)** From what country is a small brute force or password spray attack occurring against the Frothly web servers?
 
-Cuộc tấn công brute-force password hoặc tấn công tràn lan mật khẩu quy mô nhỏ nhắm vào máy chủ web của Frothly đang diễn ra từ quốc gia nào?
-
 - Trong bộ dữ liệu này, các Web server có tên bắt đầu bằng `gacrux` và chạy trên Linux
 - Log xác thực được lưu trong sourcetype=`linux_secure`
   ```powershell
@@ -369,8 +325,6 @@ Cuộc tấn công brute-force password hoặc tấn công tràn lan mật khẩ
 ⇒ đáp án là `113.162.80.84`
 
 ## **11. (202)** What is the processor number used on the web servers?
-
-Trong ngữ cảnh của phần cứng thì processer number là model của CPU ( như `i5-12400F`, …)
 
 - Các bộ vi xử lý phổ biến nhất là intel và amd
   ```powershell
@@ -406,8 +360,6 @@ Trong ngữ cảnh của phần cứng thì processer number là model của CPU
 
 ## **12. (303)** What is the password for the user that was successfully created by the user “root” on the on-premises Linux system?
 
-Mật khẩu của người dùng được tạo thành công bởi người dùng “root” trên hệ thống Linux tại chỗ là gì?
-
 - Câu này yêu cầu tìm password trong, điều này có thể xảy ra khi người quản trị tạo user và mật khẩu bằng cmd
 - Câu lệnh trên linux có thể là useradd “username” -p “password”, tìm với các ký tự này
   ```powershell
@@ -432,8 +384,6 @@ Mật khẩu của người dùng được tạo thành công bởi người dù
 ⇒ Đáp án là `ilovedavidverve`
 
 ## **13. (305)** What is the process ID of the process listening on a “leet” port?
-
-ID tiến trình của tiến trình đang lắng nghe trên cổng “leet” là gì?
 
 - **Quy tắc Leetspeak:** Họ thường thay chữ cái bằng số có hình dáng tương tự.
   - L = 1
@@ -460,8 +410,6 @@ index=botsv3 columns.port=1337 OR dest_por=1337 OR src_por=1337
 ⇒ Đáp án là `14356`
 
 ## **14. (315)** During the attack, two files are remotely streamed to the /tmp directory of the on-premises Linux server by the adversary. What are the names of these files?
-
-Trong cuộc tấn công, kẻ thù đã truyền tải từ xa hai tập tin đến thư mục /tmp của máy chủ Linux tại chỗ. Tên của hai tập tin đó là gì?
 
 - Tìm /tmp/ trong hệ thống
   ```powershell
@@ -490,8 +438,6 @@ Trong cuộc tấn công, kẻ thù đã truyền tải từ xa hai tập tin đ
 ⇒ Đáp án là `logos.png`
 
 ## **16. (322)** _What is the path of the URL being accessed by the command and control server?_
-
-Đâu là đường dẫn URL (Path) thuộc về hạ tầng C2 mà đang được sử dụng trong cuộc tấn công này?
 
 - Attacker thường sử dụng encode base64 để truyền qua firewall mà không bị chặn hoặc enscape và khi giải mã base64 đó trên máy windows thường có chuỗi `FromBase64String`
   ```powershell
@@ -550,8 +496,6 @@ Trong cuộc tấn công, kẻ thù đã truyền tải từ xa hai tập tin đ
 ⇒ URL là `/admin/get.php`
 
 ## **17. (323)** _At least two Frothly endpoints contact the adversary’s command and control infrastructure. What are their short hostnames?_
-
-Ít nhất hai điểm cuối Frothly liên hệ với cơ sở hạ tầng C2 của đối phương. Tên máy chủ viết tắt của chúng là gì?
 
 - Ta đã biết ở câu trên là URL path để truy cập vào máy chủ C2 là `/admin/get.php` , tìm xem còn máy nào trong nội bộ đã truy cập vào path này
   ```powershell
